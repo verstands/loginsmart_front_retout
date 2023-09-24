@@ -9,6 +9,7 @@ import Vehicule_site3 from "./vehicule_site3";
 import Vehicule_site3week from "./vehicule_site3week";
 import Vehicule_site3cumule from "./vehicule_site3cumule";
 import { tr } from "date-fns/locale";
+import Vehicule_siteCumule1 from "./vehicule_siteCumule1";
 
 
 const Rappport_carburant_vehicule_site = () => {
@@ -1047,9 +1048,13 @@ const Rappport_carburant_vehicule_site = () => {
    };
 
    const [totalcumule, settotalcumule] = useState('1')
+   const [totalcumule2, settotalcumule2] = useState('1')
    const handleChangeTotalCumule = (e) => {
       settotalcumule(e.target.value);
       alert(totalcumule)
+   }
+   const handleChangeTotalCumule2 = (e) => {
+      settotalcumule2(e.target.value);
    }
 
 
@@ -1932,10 +1937,10 @@ const Rappport_carburant_vehicule_site = () => {
                            <center>
                               <div className="row">
                                  <div className="col-md-6">
-                                    <input type="radio" checked={totalcumule === '1'} value='1' onChange={handleChangeTotalCumule} name="v" />Totaux mensuel
+                                    <input type="radio" checked={totalcumule2 === '1'} value='1' onChange={handleChangeTotalCumule2} name="v" />Totaux mensuel
                                  </div>
                                  <div className="col-md-3">
-                                    <input type="radio" checked={totalcumule === '2'} value='2' onChange={handleChangeTotalCumule} name="v" />Totaux mensuel cumulés
+                                    <input type="radio" checked={totalcumule2 === '2'} value='2' onChange={handleChangeTotalCumule2} name="v" />Totaux mensuel cumulés
                                  </div>
                               </div>
                            </center>
@@ -1960,8 +1965,13 @@ const Rappport_carburant_vehicule_site = () => {
                               }
                            </h5>
                            {
-                              (nbrjour === '360' || nbrjour === '180' || nbrjour === '90') && (Spectre === 'sitekin' || Spectre === siteSession) && Pars === 'vehicule' && (
+                              (nbrjour === '360' || nbrjour === '180' || nbrjour === '90') && (Spectre === 'sitekin' || Spectre === siteSession) && Pars === 'vehicule' && totalcumule2 === '1' &&(
                                  <Line data={dataSitesLineMois} options={optionsSiteLineMois} />
+                              )
+                           }
+                           {
+                              (nbrjour === '360' || nbrjour === '180' || nbrjour === '90') && (Spectre === 'sitekin' || Spectre === siteSession) && Pars === 'vehicule' && totalcumule2 === '2' &&(
+                                 <Vehicule_siteCumule1 dataLineAMois={dataLineAMois} />
                               )
                            }
                            {
