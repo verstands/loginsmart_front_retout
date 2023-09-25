@@ -319,7 +319,7 @@ const Prelevement = () => {
                                     </div>
                                 </div>
                                 <div className="modal-footer">
-                                    <button type="submit" onClick={Enregistrer} className="btn btn-primary">Enregister Plein</button>
+                                    <button type="submit" onClick={Enregistrer} className="btn btn-primary"><i className="fa fa-plus"></i> Enregistrer Plein</button>
                                 </div>
                             </div>
                             <div className="col-md-6">

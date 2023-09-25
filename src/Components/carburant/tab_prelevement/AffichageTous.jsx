@@ -226,7 +226,7 @@ const AffchageTous = () => {
                 <div className="modal-dialog modal-lg">
                     <div className="modal-content">
                         <div className="modal-header">
-                            <h5 className="modal-title" id="exampleModalLabel">MODIFICATION  </h5>
+                            <h5 className="modal-title" id="exampleModalLabel">MODIFICATION D'UN PLEIN </h5>
                             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div className="modal-body">
@@ -285,7 +285,7 @@ const AffchageTous = () => {
                             }
                         </div>
                         <div className="modal-footer">
-                            <button type="submit" className="btn btn-primary">Modifier</button>
+                            <button type="submit" className="btn btn-primary"><i className="fa fa-edit"></i> Modifier</button>
                         </div>
                     </div>
                 </div>
@@ -311,42 +311,42 @@ const AffchageTous = () => {
                                 update.map((cd) => {
                                     return (
                                         <div className="row">
-                                            <div className="col-md-4">
+                                            <div className="col-md-3">
                                                 <label htmlFor="">Immatriculation</label><br />
-                                                <input type="text" value={cd.immatriculation} className="form-control" />
+                                                <input type="text" style={{border : "none"}} value={cd.immatriculation} className="form-control" />
                                             </div>
-                                            <div className="col-md-4">
+                                            <div className="col-md-3">
                                                 <label htmlFor="">Date plein</label><br />
-                                                <input type="text" value={cd.date_plein} className="form-control" />
+                                                <input type="text" style={{border : "none"}} value={cd.date_plein} className="form-control" />
                                             </div>
-                                            <div className="col-md-4">
+                                            <div className="col-md-3">
                                                 <label htmlFor="">Quantite</label><br />
-                                                <input type="text" value={cd.qteplein} className="form-control" />
+                                                <input type="text" style={{border : "none"}} value={cd.qteplein} className="form-control" />
                                             </div>
-                                            <div className="col-md-4">
+                                            <div className="col-md-3">
                                                 <label htmlFor="">Kilometrage</label><br />
-                                                <input type="text" value={cd.kilometrage} className="form-control" />
-                                            </div><div className="col-md-4">
+                                                <input type="text" style={{border : "none"}} value={cd.kilometrage} className="form-control" />
+                                            </div><div className="col-md-3">
                                                 <label htmlFor="">Type carburant</label><br />
-                                                <input type="text" value={cd.nom_carb} className="form-control" />
-                                            </div><div className="col-md-4">
+                                                <input type="text" style={{border : "none"}} value={cd.nom_carb} className="form-control" />
+                                            </div><div className="col-md-3">
                                                 <label htmlFor="">Chauffeur</label><br />
-                                                <input type="text" value={cd.nom} className="form-control" />
-                                            </div><div className="col-md-4">
+                                                <input type="text" style={{border : "none"}} value={cd.nom} className="form-control" />
+                                            </div><div className="col-md-3">
                                                 <label htmlFor="">Observation</label><br />
-                                                <input type="text" value={cd.observation} className="form-control" />
+                                                <input type="text" style={{border : "none"}} value={cd.observation} className="form-control" />
                                             </div>
-                                            <div className="col-md-4">
+                                            <div className="col-md-3">
                                                 <label htmlFor="">Model</label><br />
-                                                <input type="text" value={cd.modele} className="form-control" />
+                                                <input type="text" style={{border : "none"}} value={cd.modele} className="form-control" />
                                             </div>
-                                            <div className="col-md-4">
+                                            <div className="col-md-3">
                                                 <label htmlFor="">Marque</label><br />
-                                                <input type="text" value={cd.marque} className="form-control" />
+                                                <input type="text" style={{border : "none"}} value={cd.marque} className="form-control" />
                                             </div>
-                                            <div className="col-md-4">
+                                            <div className="col-md-3">
                                                 <label htmlFor="">Observation</label><br />
-                                                <input type="text" value={cd.observation} className="form-control" />
+                                                <input type="text" style={{border : "none"}} value={cd.observation} className="form-control" />
                                             </div>
 
                                         </div>
@@ -422,7 +422,6 @@ const AffchageTous = () => {
                         <div className="modal-footer">
                             <Link className="btn btn-primary" to={`/ImprimerDate/${PamatreCarDate}`}>
                                 <i className="fas fa-print"></i>
-
                                 Impimer resultatss
                             </Link>
                         </div>

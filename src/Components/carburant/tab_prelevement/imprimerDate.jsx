@@ -58,9 +58,9 @@ const ImprimerDate = () => {
     const siteSession = localStorage.getItem("siteSession");
     const [loading, setloading] = useState(true)
 
-    const { carURL } = useParams();
+    const { pleinCarDate } = useParams();
     useEffect(() => {
-                axios.get(`${process.env.REACT_APP_SERVICE_API}pleinCarDate/${siteSession}/${carURL}`,
+                axios.get(`${process.env.REACT_APP_SERVICE_API}pleinCarDate/${siteSession}/${pleinCarDate}`,
                     {
                         headers: {
                             Accept: 'application/json',
@@ -70,6 +70,7 @@ const ImprimerDate = () => {
                     }
                 ).then((response) => {
                     setcarss(response.data.data);
+                    alert(`${process.env.REACT_APP_SERVICE_API}pleinCarDate/${siteSession}/${pleinCarDate}`)
                     setloading(false)
                 }).catch((error) => {
                     alert(error)

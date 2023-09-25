@@ -48,38 +48,38 @@ const Search_vehicule = () => {
     }
 
     useEffect(() => {
-       
-                axios.get(`${process.env.REACT_APP_SERVICE_API}vehicule/${siteSession}`,
-                    {
-                        headers: {
-                            Accept: 'application/json',
-                            'Content-Type': 'application/json',
-                            Authorization: token
-                        }
-                    }
-                ).then((response) => {
-                    setimmatriculation(response.data.data);
-                }).catch((error) => {
-                    alert(error)
-                })
+
+        axios.get(`${process.env.REACT_APP_SERVICE_API}vehicule/${siteSession}`,
+            {
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                    Authorization: token
+                }
+            }
+        ).then((response) => {
+            setimmatriculation(response.data.data);
+        }).catch((error) => {
+            alert(error)
+        })
     }, [])
 
     useEffect(() => {
-       
-                axios.get(`${process.env.REACT_APP_SERVICE_API}chauffeur/${siteSession}`,
-                    {
-                        headers: {
-                            Accept: 'application/json',
-                            'Content-Type': 'application/json',
-                            Authorization: token
-                        }
-                    }
-                ).then((response) => {
-                    setchauffeur(response.data.data);
-                }).catch((error) => {
 
-                })
-          
+        axios.get(`${process.env.REACT_APP_SERVICE_API}chauffeur/${siteSession}`,
+            {
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                    Authorization: token
+                }
+            }
+        ).then((response) => {
+            setchauffeur(response.data.data);
+        }).catch((error) => {
+
+        })
+
     }, [])
 
     useEffect(() => {
@@ -129,21 +129,21 @@ const Search_vehicule = () => {
         })
     }, [])
     useEffect(() => {
-     
-                axios.get(`${process.env.REACT_APP_SERVICE_API}site/${siteSession}`,
-                    {
-                        headers: {
-                            Accept: 'application/json',
-                            'Content-Type': 'application/json',
-                            Authorization: token
-                        }
-                    }
-                ).then((response) => {
-                    setsitevariable(response.data.data);
-                }).catch((error) => {
 
-                })
-        
+        axios.get(`${process.env.REACT_APP_SERVICE_API}site/${siteSession}`,
+            {
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                    Authorization: token
+                }
+            }
+        ).then((response) => {
+            setsitevariable(response.data.data);
+        }).catch((error) => {
+
+        })
+
     }, [])
     const [modelstyle, setmodelstyle] = useState('none');
     const [modelss, setmodelss] = useState([]);

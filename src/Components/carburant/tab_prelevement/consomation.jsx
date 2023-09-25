@@ -5,6 +5,7 @@ import { Checkbox } from "@mui/material";
 import { useNavigate } from 'react-router-dom';
 import XLSX from 'xlsx';
 import dateFormat from 'dateformat';
+import { useRef } from "react";
 
 
 
@@ -24,7 +25,7 @@ const Consommation = () => {
     const [searchQuery, setSearchQuery] = useState('');
     const siteSession = localStorage.getItem("siteSession")
     const [tableStyle, settableStyle] = useState("none")
-    const [hautDisplay, sethautDisplay] = useState('in-block')
+    const [hautDisplay, sethautDisplay] = useState('blocks')
 
     let navigateRoute = useNavigate();
 
@@ -49,8 +50,8 @@ const Consommation = () => {
             localStorage.setItem("finSession", fin)
             localStorage.setItem("ImmSession", tableauData)
             setLoading(false)
-            settableStyle(tableStyle === 'none')
-            sethautDisplay(tableStyle === 'in-block' ? 'none' : 'none')
+            settableStyle('block')
+            sethautDisplay('none')
         }).catch((error) => {
             if (error.response.status === 404) {
                 Swal.fire({
@@ -112,8 +113,8 @@ const Consommation = () => {
 
 
     const handelClickVehicule = () => {
-        if (dataInput) {
-            setTableauData([...tableauData, dataInput]);
+        if (handleInputSearchs) {
+            setTableauData([...tableauData, handleInputSearchs]);
             setDataInput('');
         }
     }
@@ -128,28 +129,32 @@ const Consommation = () => {
 
     }
 
-    const handleInputSearch = (e) => {
-        setDataInput(e.target.value);
-    };
+    
 
     const handleRemoveOption = (value) => {
         const updatedTableauData = tableauData.filter(option => option !== value);
         setTableauData(updatedTableauData);
-        alert('cool')
+        setTableauData(updatedTableauData.slice());
     };
+
 
     const handleRemoveAllOptions = () => {
         setTableauData([]);
     };
 
-    const filteredTitreSearch = titreSearch.map(titre => {
-        const filteredDt = titre.dt.filter(dt => {
-            const searchData = `${dt.immatriculation},${dt.marque},${dt.modele},${dt.type_carb},${dt.nom_site}`.toLowerCase();
-            const query = searchQuery.toLowerCase();
-            return searchData.includes(query);
+    const handleInputSearch = (e) => {
+        const inputValue = e.target.value.toLowerCase();
+        setDataInput(inputValue);
+        setSearchQuery(inputValue);
+    };
+    const filteredTitreSearch = titreSearch.map((titre) => {
+        const filteredDt = titre.dt.filter((dt) => {
+          const searchData = `${dt.immatriculation},${dt.marque},${dt.modele},${dt.type_carb},${dt.nom_site}`.toLowerCase();
+          return searchData.includes(searchQuery);
         });
         return { ...titre, dt: filteredDt };
-    });
+      });
+    
     const [loadingS, setloadingS] = useState(false)
     const [chektrue, setchektrue] = useState(false);
     const PDFz = (event) => {
@@ -179,8 +184,20 @@ const Consommation = () => {
     }
 
     const ActualiserPage = () => {
-        window.location.reload();
+        settableStyle('none')
+        sethautDisplay('flex')
     }
+    const [b, setb] = useState('')
+    const [handleInputSearchs, sethandleInputSearchs] = useState('')
+    const selectRef = useRef(null);
+    const handelClickVehiculeScrolle = (scrollDirection) => {
+        if (selectRef.current) {
+          selectRef.current.scrollIntoView({
+            behavior: 'smooth',
+            block: scrollDirection === 'up' ? 'end' : 'start',
+          });
+        }
+      };
     return (
         <>
             <div class="card card-body">
@@ -207,24 +224,19 @@ const Consommation = () => {
                                     <td rowSpan={9} valign="bottom">
                                         <input type="text" className="form-control" onChange={handleInputSearch}  />
                                         <br />
-                                        <select onDoubleClick={handelClickVehicule} style={{ fontSize: '12px' }} onChange={handleInputSearch} value={dataInput} size={10} >
-                                            {
-                                                titreSearch.map((titrecearch) => {
-                                                    return (
-                                                        <optgroup label={titrecearch.nom_site} key={titrecearch.nom_site}>
-                                                            {
-                                                                titrecearch.dt.map((sd) => {
-                                                                    return (
-                                                                        <option value={sd.immatriculation} key={'N°' + sd.id + '/' + sd.immatriculation + sd.marque + sd.modele + sd.type_carb + sd.nom_site}>
-                                                                            {'N°' + sd.id + '/' + sd.immatriculation + ',' + sd.marque + ',' + sd.modele + ',' + sd.type_carb + ',' + sd.nom_site}
-                                                                        </option>
-                                                                    )
-                                                                })
-                                                            }
-                                                        </optgroup>
-                                                    )
-                                                })
-                                            }
+                                        <select ref={selectRef} onDoubleClick={handelClickVehicule} style={{ fontSize: '12px' }} onChange={(e) => sethandleInputSearchs(e.target.value)}  size={10} >
+                                        {filteredTitreSearch.map((titre) => (
+                                                <optgroup label={titre.nom_site} key={titre.nom_site}>
+                                                    {titre.dt.map((sd) => (
+                                                        <option
+                                                            value={sd.immatriculation}
+                                                            key={'N°' + sd.id + '/' + sd.immatriculation + sd.marque + sd.modele + sd.type_carb + sd.nom_site}
+                                                        >
+                                                            {'N°' + sd.id + '/' + sd.immatriculation + ',' + sd.marque + ',' + sd.modele + ',' + sd.type_carb + ',' + sd.nom_site}
+                                                        </option>
+                                                    ))}
+                                                </optgroup>
+                                            ))}
                                         </select>
                                         {
                                             chargementData === true && (
@@ -235,7 +247,7 @@ const Consommation = () => {
                                     </td>
                                     <td align="center" />
                                     <td rowSpan={9} valign="bottom">
-                                        <select name="" size={8}  >
+                                        <select name="" size={8} onChange={(e) => setb(e.target.value)}  >
 
                                             {
                                                 tableauData.map((x, index) => {
@@ -264,12 +276,12 @@ const Consommation = () => {
                                 </tr>
                                 <tr>
                                     <td align="center"><input type="button" defaultValue=">>" onClick={handelClickVehiculeAll} className="btn btn-primary" /></td>
-                                    <td rowSpan={3} valign="top"><input type="button" defaultValue="  ˄ " className="btn btn-primary" />
-                                        <input type="button" defaultValue="  ˅ " className="btn btn-primary" /></td>
+                                    <td rowSpan={3} valign="top"><input type="button" defaultValue="  ˄ " className="btn btn-primary" onClick={() => handelClickVehiculeScrolle('up')} />
+                                        <input type="button" defaultValue="  ˅ " className="btn btn-primary" onClick={() => handelClickVehiculeScrolle('down')} /></td>
                                     <td rowSpan={3} valign="top">&nbsp;</td>
                                 </tr>
                                 <tr>
-                                    <td align="center"><input type="button" onClick={handleRemoveOption} className="btn btn-primary" defaultValue="<  " /></td>
+                                    <td align="center"><input type="button" onClick={() => handleRemoveOption(b)} className="btn btn-primary" defaultValue="<  " /></td>
                                 </tr>
                                 <tr>
                                     <td align="center"><input type="button" onClick={handleRemoveAllOptions} className="btn btn-primary" defaultValue="<<" /></td>
@@ -295,7 +307,7 @@ const Consommation = () => {
                         <input type="date" onChange={(e) => setfin(e.target.value)} class="form-control" placeholder="Date fin" />
                     </div>
                     <div class="col-md-3">
-                        <button onClick={RechercheBtn} class="btn btn-primary">Calculer cons.</button>
+                        <button onClick={RechercheBtn} class="btn btn-primary"><i className="fa fa-calculator"></i> Calculer cons.</button>
                     </div>
                 </div>
                 <center>
