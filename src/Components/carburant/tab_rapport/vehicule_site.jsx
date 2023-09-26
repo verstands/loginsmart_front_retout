@@ -1051,7 +1051,7 @@ const Rappport_carburant_vehicule_site = () => {
    const [totalcumule2, settotalcumule2] = useState('1')
    const handleChangeTotalCumule = (e) => {
       settotalcumule(e.target.value);
-      alert(totalcumule)
+
    }
    const handleChangeTotalCumule2 = (e) => {
       settotalcumule2(e.target.value);
@@ -1189,11 +1189,12 @@ const Rappport_carburant_vehicule_site = () => {
       <>
          <div class="card">
             <div class="card-body">
-               <button onClick={ActualiseGraphique}><i className="mdi mdi-refresh" title="Actualiser"></i></button>
                <center>
                   <h5 class="card-title"> Rapport consomation carburant par vehicule (sur les {nbrjour} dernier jours )</h5>
                </center>
                <hr />
+               <button onClick={ActualiseGraphique} className="btn btn-primary"><i className="mdi mdi-refresh" title="Actualiser"></i></button>
+
                <div className="row text-center" >
                   <div className="col-md-12">
                      <b>Spectre</b><br />
@@ -1965,12 +1966,12 @@ const Rappport_carburant_vehicule_site = () => {
                               }
                            </h5>
                            {
-                              (nbrjour === '360' || nbrjour === '180' || nbrjour === '90') && (Spectre === 'sitekin' || Spectre === siteSession) && Pars === 'vehicule' && totalcumule2 === '1' &&(
+                              (nbrjour === '360' || nbrjour === '180' || nbrjour === '90') && (Spectre === 'sitekin' || Spectre === siteSession) && Pars === 'vehicule' && totalcumule2 === '1' && (
                                  <Line data={dataSitesLineMois} options={optionsSiteLineMois} />
                               )
                            }
                            {
-                              (nbrjour === '360' || nbrjour === '180' || nbrjour === '90') && (Spectre === 'sitekin' || Spectre === siteSession) && Pars === 'vehicule' && totalcumule2 === '2' &&(
+                              (nbrjour === '360' || nbrjour === '180' || nbrjour === '90') && (Spectre === 'sitekin' || Spectre === siteSession) && Pars === 'vehicule' && totalcumule2 === '2' && (
                                  <Vehicule_siteCumule1 dataLineAMois={dataLineAMois} />
                               )
                            }

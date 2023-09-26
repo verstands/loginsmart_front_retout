@@ -7,6 +7,7 @@ import Swal from "sweetalert2";
 const AffTous_maintenance_vehicule = () => {
     let token = `Bearer ${localStorage.getItem("token")}`;
     const [interventions, setinterventions] = useState([]);
+    const [interventions2, setinterventions2] = useState([]);
     const [loading, setLoading] = useState(true);
     const [loadingD, setloadingD] = useState(false)
     const [titre, settitre] = useState('');
@@ -29,7 +30,7 @@ const AffTous_maintenance_vehicule = () => {
             setupdate(response.data.data);
             setloadingD(false)
         }).catch((error) => {
-            alert(error)
+            alert(error + 'mode')
         })
     }
     //onchage
@@ -45,7 +46,7 @@ const AffTous_maintenance_vehicule = () => {
             }
         ).then((response) => {
             setinterventions(response.data.data)
-            setloadingD(false);
+            setloadingD(false)
         }).catch((error) => {
 
         })
@@ -77,14 +78,15 @@ const AffTous_maintenance_vehicule = () => {
                         });
                     })
                     .catch((error) => {
-                        alert(error);
+                        alert(error + 'bouton');
                     });
             }
         });
     }
 
     const [reparationIdd, setreparationIdd] = useState([]);
-    const reparationID = (id) => {
+    const reparationIDBtn = (id) => {
+        setloadingD(true)
         axios.get(`${process.env.REACT_APP_SERVICE_API}reparationID/${id}`,
             {
                 headers: {
@@ -95,9 +97,10 @@ const AffTous_maintenance_vehicule = () => {
             }
         ).then((response) => {
             setreparationIdd(response.data.data);
-            setLoading(false);
+            alert(response.data.data);
+            setloadingD(false)
         }).catch((error) => {
-            alert(alert(error))
+            alert(alert(error + 'reparationID'))
         })
     }
 
@@ -127,7 +130,7 @@ const AffTous_maintenance_vehicule = () => {
         .map((e) => {
             return (
                 <tr>
-                    <td>{e.reparationID}</td>
+                    <td>{e.id}</td>
                     <td>{e.immatriculation}</td>
                     <td>{e.marque}</td>
                     <td>{e.daterep}</td>
@@ -149,7 +152,7 @@ const AffTous_maintenance_vehicule = () => {
                         }
                     </td>
                     <td>
-                        <a href={e.reparationID} onClick={reparationID(e.reparationID)} data-bs-toggle="modal" data-bs-target="#Carbs">
+                        <a href={e.reparationID} onClick={() => reparationIDBtn(e.reparationID)} data-bs-toggle="modal" data-bs-target="#Carbs">
                             <i class="mdi mdi-eye" style={{ fontSize: 30 }}></i>
                         </a>
                     </td>
@@ -183,6 +186,7 @@ const AffTous_maintenance_vehicule = () => {
                     <div className="modal-header">
                         <div className="table-responsive">
                             <h3 className="text-center">LISTE DE TOUTES LES REPARATIONS ET ENTRETIENS</h3>
+                            <hr />
                             <div className="row">
                                 <div className="col-md-4">
                                     <select className="form-control" onChange={(e) => handleChange(e.target.value)}>
@@ -190,6 +194,9 @@ const AffTous_maintenance_vehicule = () => {
                                         <option value="Encours">En cours</option>
                                         <option value="Termine">Terminé</option>
                                     </select>
+                                </div>
+                                <div className="col-md-4">
+                                    { loadingD && (<i style={{fontSize : '25px'}} className="fa fa-spinner fa-pulse"></i>) }  
                                 </div>
                                 <br />
                                 <br />
@@ -242,7 +249,7 @@ const AffTous_maintenance_vehicule = () => {
                                 <div class="table-responsive">
                                     <center>
                                         {
-                                            loadingD === false && (
+                                            loadingD === true && (
                                                 <p><i className="fa fa-pulse fa-spinner text-primary" style={{ fontSize: 20 }} ></i></p>
                                             )
                                         }

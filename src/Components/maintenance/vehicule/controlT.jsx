@@ -9,7 +9,7 @@ const ControlT = () => {
     const [intervention, setintervention] = useState([]);
     const [vehicule, setvehicule] = useState([]);
     const [reparation, setreparation] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
     const [immatriculations, setimmatriculations] = useState("");
     const [debut, setdebut] = useState("");
     const [kilo, setkilo] = useState("");
@@ -58,7 +58,7 @@ const ControlT = () => {
     let n = 1;
     const url = `${process.env.REACT_APP_SERVICE_API}check_auto`;
     const Enregistrer = () => {
-            
+        setLoading(true) 
         inputList.forEach((dsav, index) => {
             axios.post(url, {
                 ref_centre  : ref,
@@ -93,6 +93,7 @@ const ControlT = () => {
                     text: 'Success',
                     confirmButtonText: 'OK'
                 });
+                setLoading(false)
 
             }).catch((error) => {
                 if (error.response && error.response.status === 422) {
@@ -100,18 +101,21 @@ const ControlT = () => {
                         icon: 'error',
                         text: `Tous les champs sont obligatoire !`,
                     });
+                    setLoading(false)
                 } else if (error.response.status === 500) {
                     Swal.fire({
                         icon: 'error',
                         text: 'Erreur de la connexion !!!',
                         confirmButtonText: 'OK'
                     })
+                    setLoading(false)
                 } else {
                     Swal.fire({
                         icon: 'error',
                         text: `${error.response.data.message}`,
                         confirmButtonText: 'OK'
                     })
+                    setLoading(false)
                 }
             });
           
@@ -346,7 +350,7 @@ const ControlT = () => {
                             </div>
                         </div>
                         <div className="modal-footer">
-                            <button type="submit" onClick={Enregistrer} className="btn btn-primary">Enregister</button>
+                            <button type="submit" onClick={Enregistrer} className="btn btn-primary">{ loading && (<i className="fa fa-spinner fa-pulse"></i>) } Enregister</button>
                         </div>
                     </div>
 
