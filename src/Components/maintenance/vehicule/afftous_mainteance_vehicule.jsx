@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Pagination } from "react-bootstrap";
 import Swal from "sweetalert2";
+import dateFormat from "dateformat";
 
 
 const AffTous_maintenance_vehicule = () => {
@@ -87,7 +88,7 @@ const AffTous_maintenance_vehicule = () => {
     const [reparationIdd, setreparationIdd] = useState([]);
     const reparationIDBtn = (id) => {
         setloadingD(true)
-        axios.get(`${process.env.REACT_APP_SERVICE_API}reparationID/${id}`,
+        axios.get(`${process.env.REACT_APP_SERVICE_API}reparationID/${siteSession}/${id}`,
             {
                 headers: {
                     Accept: 'application/json',
@@ -97,7 +98,6 @@ const AffTous_maintenance_vehicule = () => {
             }
         ).then((response) => {
             setreparationIdd(response.data.data);
-            alert(response.data.data);
             setloadingD(false)
         }).catch((error) => {
             alert(alert(error + 'reparationID'))
@@ -130,7 +130,7 @@ const AffTous_maintenance_vehicule = () => {
         .map((e) => {
             return (
                 <tr>
-                    <td>{e.id}</td>
+                    <td>{e.reparationID}</td>
                     <td>{e.immatriculation}</td>
                     <td>{e.marque}</td>
                     <td>{e.daterep}</td>
@@ -138,7 +138,7 @@ const AffTous_maintenance_vehicule = () => {
                     <td>{e.nbre}</td>
                     <td>{e.intitule}</td>
                     <td>{e.titre}</td>
-                    <td>{e.titre}</td>
+                    <td>{e.nom}</td>
                     <td>
                         {
                             (e.state_cat_rep !== "En cours") && (
@@ -212,7 +212,7 @@ const AffTous_maintenance_vehicule = () => {
                                         <th>Date entreée</th>
                                         <th>Date sortie</th>
                                         <th>Jrs</th>
-                                        <th>Libelle de repatition</th>
+                                        <th width={1}>Libelle de repatition</th>
                                         <th>Type Réparation</th>
                                         <th>Fournisseur</th>
                                         <th>Etat</th>
@@ -243,7 +243,7 @@ const AffTous_maintenance_vehicule = () => {
                         <div className="modal-body">
                             <div class="card-body">
                                 <center>
-                                    <h3 class="card-title"> SUIVI INTERVENTION BON N° {reparationIdd.id}</h3>
+                                    <h6 class="card-title"> SUIVI INTERVENTION BON N° {reparationIdd.id}: VEHECULE N°{reparationIdd.marque} {reparationIdd.modele} {reparationIdd.immatriculation}</h6>
                                 </center>
                                 <hr />
                                 <div class="table-responsive">
@@ -262,9 +262,9 @@ const AffTous_maintenance_vehicule = () => {
                                         <tbody>
                                             <tr>
                                                 <td>Releve Actuel</td>
-                                                <td>200</td>
+                                                <td>{reparationIdd.kilometrage}</td>
                                                 <td>Date debut</td>
-                                                <td>12</td>
+                                                <td>{reparationIdd.daterep}</td>
                                                 <td>Fournisseur</td>
                                                 <td>Auto center</td>
                                             </tr>
@@ -272,9 +272,9 @@ const AffTous_maintenance_vehicule = () => {
                                                 <td>Prochaine Intervention (Hrs)</td>
                                                 <td>200</td>
                                                 <td>Date fin</td>
-                                                <td>12</td>
+                                                <td>{reparationIdd.dtsorti}</td>
                                                 <td>BC emis par</td>
-                                                <td>Tit</td>
+                                                <td>{reparationIdd.nom}</td>
                                             </tr>
                                             <tr>
                                                 <td>Cout (devis)</td>

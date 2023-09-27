@@ -663,13 +663,7 @@ const Vehicule_vehicules = () => {
                     <br />
                     <div class="row">
                         <div class="col-md-3">
-                            <button onClick={Enregistrer} class="btn btn-primary" >Enregistrer</button>
-                            &nbsp;&nbsp;&nbsp;{
-                                loadingE === true && (
-                                    <i className="fa fa-pulse fa-spinner" style={{ fontSize: '30px' }}></i>
-                                )
-                            }
-
+                            <button onClick={Enregistrer} class="btn btn-primary" >{ loadingE && (<i className="fa fa-spinner fa-pulse"></i>) } Enregistrer</button>
                         </div>
                     </div>
 
