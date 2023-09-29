@@ -139,9 +139,16 @@ function LoginA() {
               </div>
             </div>
             <center>
+              {
+                loading === true && (
+                  <p><i className="fa fa-spinner fa-pulse text-warning" ></i></p>
+                )
+              }
+              @FreeALPHA23
+              meganelbuhika@gmail.com 
             </center>
             <div class="row border-top border-secondary">
-              <div class="col-12">
+              <div class="col-12"> 
                 <div class="form-group">
                   <div class="pt-3">
                     <button
@@ -156,7 +163,6 @@ function LoginA() {
                       class="btn btn-success float-end text-white"
                       onClick={connecter}
                     >
-                      { loading && (<i className="fa fa-spinner fa-pulse"></i>) }&nbsp;
                       Se connecter
                     </button>
                   </div>

@@ -58,27 +58,27 @@ const ControlT = () => {
     let n = 1;
     const url = `${process.env.REACT_APP_SERVICE_API}check_auto`;
     const Enregistrer = () => {
-        setLoading(true) 
+        setLoading(true)
         inputList.forEach((dsav, index) => {
             axios.post(url, {
-                ref_centre  : ref,
-                nom_centre  : selectedVehicules,
-                date_check  : debut,
-                immat_check  : selectedVehicule,
+                ref_centre: ref,
+                nom_centre: selectedVehicules,
+                date_check: debut,
+                immat_check: selectedVehicule,
                 date_cr: new Date().toLocaleDateString(),
-                resultat_check  : resultat,
-                km_check  : kilo,
-                chauff_check  : chf,
-                delai_check  : validite,
-                agent_check  : agent,
-                cout_ht  : coutht,
-                taxes_check  : impot,
-                ttc_check  : calculeTTC(),
-                comment_check  : desc,
-                id_check : 'required',
-                lib_check : dsav.montant,
-                categorie_check : dsav.typeReparation,
-                date_detail_check : dsav.description,
+                resultat_check: resultat,
+                km_check: kilo,
+                chauff_check: chf,
+                delai_check: validite,
+                agent_check: agent,
+                cout_ht: coutht,
+                taxes_check: impot,
+                ttc_check: calculeTTC(),
+                comment_check: desc,
+                id_check: 'required',
+                lib_check: dsav.montant,
+                categorie_check: dsav.typeReparation,
+                date_detail_check: dsav.description,
 
             }, {
                 headers: {
@@ -118,10 +118,10 @@ const ControlT = () => {
                     setLoading(false)
                 }
             });
-          
-            
-          });
-        
+
+
+        });
+
     }
     useEffect(() => {
         axios.get(`${process.env.REACT_APP_SERVICE_API}vehicule/${siteSession}`,
@@ -191,7 +191,7 @@ const ControlT = () => {
 
     const handleChange = (e) => {
         setSelectedVehicule(e.value);
-     
+
     }
     const autocompleteVehicule = () => {
         const options = vehicule.map((vh) => ({
@@ -224,7 +224,7 @@ const ControlT = () => {
 
     const handleChangeCh = (e) => {
         setSelectedVehicule(e.value);
-     
+
     }
     const autocompleteVehiculeCh = () => {
         const options = chf.map((vh) => ({
@@ -277,11 +277,11 @@ const ControlT = () => {
                             </div>
                             <div className="col-md-4">
                                 <label for="">Cout Ht</label>
-                                <input type="number" onChange={(e) => {setcoutht(e.target.value)}} className="form-control" />
+                                <input type="number" onChange={(e) => { setcoutht(e.target.value) }} className="form-control" />
                             </div>
                             <div className="col-md-4">
                                 <label for="">Taxes</label>
-                                <input type="number" onChange={(e) => {setimpot(e.target.value)}} className="form-control" />
+                                <input type="number" onChange={(e) => { setimpot(e.target.value) }} className="form-control" />
                             </div>
                             <div className="col-md-4">
                                 <label for="">Cout TTC</label>
@@ -295,7 +295,7 @@ const ControlT = () => {
                                 <label for="">Chauffeur</label>
                                 {autocompleteVehiculeCh()}
                             </div>
-                            
+
                             <br />
                             {
                                 inputList.map((x, i) => {
@@ -303,7 +303,7 @@ const ControlT = () => {
                                         <>
                                             <div className="col-md-4 typR"><br />
                                                 <label for="" className="titre1">Type de reparation</label>
-                                                <select  name="typeReparation" value={x.typeReparation} className="form-control" onChange={e => handleInputChange(e, i)}>
+                                                <select name="typeReparation" value={x.typeReparation} className="form-control" onChange={e => handleInputChange(e, i)}>
                                                     {
                                                         reparation.map((e) => {
                                                             return (
@@ -315,7 +315,7 @@ const ControlT = () => {
                                             </div>
                                             <div className="col-md-4 mont"><br />
                                                 <label for="" className="titre2">Autre visite</label>
-                                                <select  name="montant" value={x.montant} className="form-control" onChange={e => handleInputChange(e, i)}>
+                                                <select name="montant" value={x.montant} className="form-control" onChange={e => handleInputChange(e, i)}>
                                                     <option value="s">--Choisir--</option>
                                                     <option value="1" key='1'>Oui</option>
                                                     <option value="2" key="2">Non</option>
@@ -350,7 +350,12 @@ const ControlT = () => {
                             </div>
                         </div>
                         <div className="modal-footer">
-                            <button type="submit" onClick={Enregistrer} className="btn btn-primary">{ loading && (<i className="fa fa-spinner fa-pulse"></i>) } Enregister</button>
+                            {
+                                loading === true && (
+                                    <p><i style={{ fontSize: '35px' }} className="fa fa-spinner fa-pulse text-primary" ></i></p>
+                                )
+                            }
+                            <button type="submit" onClick={Enregistrer} className="btn btn-primary"> Enregister</button>
                         </div>
                     </div>
 

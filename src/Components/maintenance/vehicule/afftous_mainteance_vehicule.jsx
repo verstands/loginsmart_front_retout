@@ -3,6 +3,7 @@ import axios from "axios";
 import { Pagination } from "react-bootstrap";
 import Swal from "sweetalert2";
 import dateFormat from "dateformat";
+import Select from "react-select";
 
 
 const AffTous_maintenance_vehicule = () => {
@@ -15,6 +16,19 @@ const AffTous_maintenance_vehicule = () => {
     const [update, setupdate] = useState([])
     let n = 1;
     const siteSession = localStorage.getItem("siteSession");
+    const [inputList, setInputList] = useState([{ tache: '', piece: '', montant: '' }]);
+
+    const handleInputChange = (e, index) => {
+        const { name, value } = e.target;
+        const list = [...inputList];
+        list[index][name] = value;
+        setInputList(list);
+    };
+
+    const handleAddClick = () => {
+        setInputList([...inputList, { tache: '', piece: '', montant: '' }]);
+    };
+
     //update
     const UpdateId = (id) => {
         setloadingD(true)
@@ -86,6 +100,8 @@ const AffTous_maintenance_vehicule = () => {
     }
 
     const [reparationIdd, setreparationIdd] = useState([]);
+    const [reparationIddR, setreparationIddR] = useState([]);
+    const [decriptionTravail, setdecriptionTravail] = useState([]);
     const reparationIDBtn = (id) => {
         setloadingD(true)
         axios.get(`${process.env.REACT_APP_SERVICE_API}reparationID/${siteSession}/${id}`,
@@ -102,6 +118,37 @@ const AffTous_maintenance_vehicule = () => {
         }).catch((error) => {
             alert(alert(error + 'reparationID'))
         })
+        //pour le detail de reparation
+        axios.get(`${process.env.REACT_APP_SERVICE_API}reparationIDR/${siteSession}/${id}`,
+            {
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                    Authorization: token
+                }
+            }
+        ).then((response) => {
+            setreparationIddR(response.data.data);
+            setloadingD(false)
+        }).catch((error) => {
+            alert(alert(error + 'reparationID'))
+        })
+        //pour description du travail effectue
+        axios.get(`${process.env.REACT_APP_SERVICE_API}reparationIDTRAVAUX/${siteSession}/${id}`,
+            {
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                    Authorization: token
+                }
+            }
+        ).then((response) => {
+            setdecriptionTravail(response.data.data);
+            setloadingD(false)
+        }).catch((error) => {
+            alert(alert(error + 'reparationID'))
+        })
+
     }
 
     useEffect(() => {
@@ -120,7 +167,76 @@ const AffTous_maintenance_vehicule = () => {
             alert(error + 'affmainteance')
         })
     }, [])
-    
+    //evaluation
+    const [evaluationTableau, setevaluationTableau] = useState([])
+    useEffect(() => {
+        axios.get(`${process.env.REACT_APP_SERVICE_API}evaluationReparation`,
+            {
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                    Authorization: token
+                }
+            }
+        ).then((response) => {
+            setevaluationTableau(response.data.data);
+            setloadingD(false)
+        }).catch((error) => {
+            alert(alert(error + 'reparationID'))
+        })
+    }, [])
+    //evaluation
+    const [tacheTableau, settacheTableau] = useState([])
+    useEffect(() => {
+        axios.get(`${process.env.REACT_APP_SERVICE_API}tacheReparation`,
+            {
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                    Authorization: token
+                }
+            }
+        ).then((response) => {
+            settacheTableau(response.data.data);
+            setloadingD(false)
+        }).catch((error) => {
+            alert(alert(error + 'reparationID'))
+        })
+    }, [])
+
+    const [pieceReparation, setpieceReparation] = useState([]);
+    useEffect(() => {
+        axios.get(`${process.env.REACT_APP_SERVICE_API}pieceReparation`,
+            {
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                    Authorization: token
+                }
+            }
+        ).then((response) => {
+            setpieceReparation(response.data.data);
+            setloadingD(false)
+        }).catch((error) => {
+            alert(alert(error + 'reparationID'))
+        })
+    }, [])
+    const [selectedVehicules, setSelectedVehicules] = useState("");
+    const handleChanges = (e) => {
+        setSelectedVehicules(e.value);
+    }
+    const autocompleteVehicules = () => {
+        const options = pieceReparation.map((vh) => ({
+            label: vh.nom,
+            value: vh.id,
+        }));
+        return (
+            <Select
+                options={options}
+                onChange={handleChanges}
+            />
+        );
+    };
     //pagination
     const [pageNumber, setPageNumber] = useState(0);
     const pleinPerPage = 100;
@@ -139,18 +255,21 @@ const AffTous_maintenance_vehicule = () => {
                     <td>{e.intitule}</td>
                     <td>{e.titre}</td>
                     <td>{e.nom}</td>
-                    <td>
-                        {
-                            (e.state_cat_rep !== "En cours") && (
-                                <button className="btn btn-defaults">{e.state_cat_rep}</button>
-                            )
-                        }
-                        {
-                            (e.state_cat_rep === "En cours") && (
-                                <button className="btn btn-danger">En cours</button>
-                            )
-                        }
-                    </td>
+                    {
+                        (e.state_cat_rep === "Terminé") && (
+                            <td>{e.state_cat_rep}</td>
+                        )
+                    }
+                    {
+                        (e.state_cat_rep === "En cours") && (
+                            <td style={{ backgroundColor: "red" }}>En cours</td>
+                        )
+                    }
+                    {
+                        (e.state_cat_rep !== "En cours") && (e.state_cat_rep !== "Terminé") && (
+                            <td style={{ backgroundColor: "blue" }}>Terminé(R)</td>
+                        )
+                    }
                     <td>
                         <a href={e.reparationID} onClick={() => reparationIDBtn(e.reparationID)} data-bs-toggle="modal" data-bs-target="#Carbs">
                             <i class="mdi mdi-eye" style={{ fontSize: 30 }}></i>
@@ -188,6 +307,7 @@ const AffTous_maintenance_vehicule = () => {
                             <h3 className="text-center">LISTE DE TOUTES LES REPARATIONS ET ENTRETIENS</h3>
                             <hr />
                             <div className="row">
+                                <div className="col-md-2">Séléctionner :</div>
                                 <div className="col-md-4">
                                     <select className="form-control" onChange={(e) => handleChange(e.target.value)}>
                                         <option value="Tous">Tous</option>
@@ -196,14 +316,12 @@ const AffTous_maintenance_vehicule = () => {
                                     </select>
                                 </div>
                                 <div className="col-md-4">
-                                    { loadingD && (<i style={{fontSize : '25px'}} className="fa fa-spinner fa-pulse"></i>) }  
+                                    {loadingD && (<i style={{ fontSize: '25px' }} className="fa fa-spinner fa-pulse"></i>)}
                                 </div>
                                 <br />
                                 <br />
                             </div>
-                            <table
-                                class="table table-striped table-bordered"
-                            >
+                            <table id="zero_config" className="table table-striped table-bordered table-sm">
                                 <thead>
                                     <tr style={{ background: 'silver' }}>
                                         <th>N°</th>
@@ -238,14 +356,11 @@ const AffTous_maintenance_vehicule = () => {
                 <div className="modal-dialog modal-lg">
                     <div className="modal-content">
                         <div className="modal-header">
+                            <h5 className="modal-title" id="exampleModalLabel">SUIVI INTERVENTION BON N° {reparationIdd.id}: VEHECULE N°{reparationIdd.marque} {reparationIdd.modele} {reparationIdd.immatriculation}</h5>
                             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div className="modal-body">
                             <div class="card-body">
-                                <center>
-                                    <h6 class="card-title"> SUIVI INTERVENTION BON N° {reparationIdd.id}: VEHECULE N°{reparationIdd.marque} {reparationIdd.modele} {reparationIdd.immatriculation}</h6>
-                                </center>
-                                <hr />
                                 <div class="table-responsive">
                                     <center>
                                         {
@@ -254,7 +369,7 @@ const AffTous_maintenance_vehicule = () => {
                                             )
                                         }
                                     </center>
-                                    <h5 style={{backgroundColor : "silver"}}>INFORMATIONS GENERALES</h5>
+                                    <h5 style={{ backgroundColor: "silver" }}>INFORMATIONS GENERALES</h5>
                                     <table
                                         id="zero_config"
                                         class="table table-striped table-bordered"
@@ -282,11 +397,11 @@ const AffTous_maintenance_vehicule = () => {
                                                 <td>Fin prevue</td>
                                                 <td>12</td>
                                                 <td>Fin encodée par</td>
-                                                <td>d</td>
+                                                <td></td>
                                             </tr>
                                         </tbody>
                                     </table>
-                                    <h5 style={{backgroundColor : "silver"}}>DETAILS DE REAPARATION </h5>
+                                    <h5 style={{ backgroundColor: "silver" }}>DETAILS DE REAPARATION </h5>
                                     <table
                                         id="zero_config"
                                         class="table table-striped table-bordered"
@@ -302,27 +417,238 @@ const AffTous_maintenance_vehicule = () => {
                                                 <th>Réclamation?</th>
                                             </tr>
                                         </thead>
+                                        <tbody>
+                                            {
+                                                reparationIddR.map((rp) => {
+                                                    return (
+                                                        <tr>
+                                                            <td>{rp.reparationID}</td>
+                                                            <td>{rp.intitule}</td>
+                                                            <td>{rp.titre}</td>
+                                                            <td>{rp.state}</td>
+                                                            <td>{rp.state_cat_rep}</td>
+                                                            <td>
+                                                                <button data-bs-toggle="modal" data-bs-target="#accesadmin">
+                                                                    <i class="fa fa-user"></i>
+                                                                </button>
+                                                            </td>
+                                                            <td></td>
+                                                        </tr>
+                                                    )
+                                                })
+                                            }
+                                        </tbody>
                                     </table>
-                                    <h5 style={{backgroundColor : "silver"}}>DESCRIPTION DU TRAVAIL EFFECTUE </h5>
-                                    <table
-                                        id="zero_config"
-                                        class="table table-striped table-bordered"
-                                    >
-                                        <thead>
-                                            <tr>
-                                                <th>Ref</th>
-                                                <th>Taches accomplie</th>
-                                                <th>Montant</th>
-                                                <th>BCD</th>
-                                                <th>Utilisateur</th>
-                                            </tr>
-                                        </thead>
-                                    </table>
+                                    {
+                                        (reparationIdd.state_cat_rep === "Terminé") && (
+                                            <>
+                                                <h5 style={{ backgroundColor: "silver" }}>DESCRIPTION DU TRAVAIL EFFECTUE </h5>
+                                                <table
+                                                    id="zero_config"
+                                                    class="table table-striped table-bordered"
+                                                >
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Ref</th>
+                                                            <th>Taches accomplie</th>
+                                                            <th>Montant</th>
+                                                            <th>BCD</th>
+                                                            <th>Utilisateur</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {
+                                                            decriptionTravail.map((dts) => {
+                                                                return (
+                                                                    <tr>
+                                                                        <td>{dts.reparationID}</td>
+                                                                        <td>{dts.trav_desc}</td>
+                                                                        <td>{dts.nom}</td>
+                                                                        <td>{dts.cout}</td>
+                                                                        <td>
+                                                                            <i className="fa fa-pdf"></i>
+                                                                        </td>
+                                                                        <td>{dts.user1}</td>
+                                                                    </tr>
+                                                                )
+                                                            })
+                                                        }
+                                                    </tbody>
+                                                </table>
+                                                <h5 style={{ backgroundColor: "silver" }}>DETAIL DE RECLAMATION</h5>
+                                                <table
+                                                    id="zero_config"
+                                                    class="table table-striped table-bordered"
+                                                >
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Ref</th>
+                                                            <th>Reclammation:</th>
+                                                            <th>Motif</th>
+                                                            <th>Description</th>
+                                                            <th>Date Reclammation</th>
+                                                            <th>Date Fin</th>
+                                                            <th>Statut réclammation</th>
+                                                            <th>Fin</th>
+                                                            <th>BRD</th>
+                                                            <th>Utilisateur</th>
+                                                        </tr>
+                                                    </thead>
+                                                </table>
+                                            </>
+                                        )
+                                    }
                                 </div>
                             </div>
                         </div>
                         <div className="modal-footer">
 
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div className="modal fade" id="accesadmin" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div className="modal-dialog modal-lg">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h5 className="modal-title" id="exampleModalLabel">SUIVI INTERVENTION BON N° {reparationIdd.id}: VEHECULE N°{reparationIdd.marque} {reparationIdd.modele} {reparationIdd.immatriculation}</h5>
+                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div className="modal-body">
+                            <div className='card-body'>
+                                <div className="table-responsives">
+                                    <h5 style={{ backgroundColor: "silver" }}>INFORMATIONS GENERALES</h5>
+
+                                    <table
+                                        id="zero_config"
+                                        class="table table-striped table-bordered"
+                                    >
+                                        <tbody>
+                                            <tr>
+                                                <td>Releve Actuel</td>
+                                                <td>{reparationIdd.kilometrage}</td>
+                                                <td>Date debut</td>
+                                                <td>{reparationIdd.daterep}</td>
+                                                <td>Fournisseur</td>
+                                                <td>Auto center</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Prochaine Intervention (Hrs)</td>
+                                                <td>200</td>
+                                                <td>Date fin</td>
+                                                <td>{reparationIdd.dtsorti}</td>
+                                                <td>BC emis par</td>
+                                                <td>{reparationIdd.nom}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Cout (devis)</td>
+                                                <td>200</td>
+                                                <td>Fin prevue</td>
+                                                <td>12</td>
+                                                <td>Fin encodée par</td>
+                                                <td></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <div className="row">
+                                        <div className="col-md-6">
+                                            <u>Veuillez mettre à jour les données</u>
+                                        </div>
+                                        <div className="col-md-6">
+                                            <div className="row">
+                                                <div className="col-md-4">
+                                                    <h6>Evaluation:</h6>
+                                                </div>
+                                                <div className="col-md-8">
+                                                    <select className="form-control" name="" id="">
+                                                        <option value="">--Choisir--</option>
+                                                        {
+                                                            evaluationTableau.map((ev) => {
+                                                                return (
+                                                                    <option value={ev.id}>{ev.state}</option>
+                                                                )
+                                                            })
+                                                        }
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <br />
+                                        <br />
+                                        <div className="card">
+                                            <div className="card-body">
+                                                <div className="row">
+                                                    <div className="col-md-4">
+                                                        <h6>Tache</h6>
+                                                    </div>
+                                                    <div className="col-md-4">
+                                                        <h6>Piece</h6>
+                                                    </div>
+                                                    <div className="col-md-4">
+                                                        <h6>Cout</h6>
+                                                    </div>
+                                                    {
+                                                        inputList.map((x, i) => {
+                                                            return (
+                                                                <>
+                                                                    <div className="col-md-4">
+                                                                        <select name="" className="form-control" onChange={e => handleInputChange(e, i)} id="">
+                                                                            <option value="">Travail Effectué</option>
+                                                                            {
+                                                                                tacheTableau.map((tt) => {
+                                                                                    return (
+                                                                                        <option value={tt.id}>{tt.trav_desc}</option>
+                                                                                    )
+                                                                                })
+                                                                            }
+                                                                        </select>
+                                                                    </div>
+                                                                    <div className="col-md-4">
+                                                                        {autocompleteVehicules()}
+                                                                    </div>
+                                                                    <div className="col-md-4">
+                                                                        <div className="row">
+                                                                            <div className="col-md-7">
+                                                                                <input type="number" className="form-control" onChange={e => handleInputChange(e, i)} />
+                                                                            </div>
+                                                                            <div className="col-md-3">
+                                                                                <p>usd</p>
+                                                                            </div>
+                                                                            <div className="col-md-2">
+                                                                            {inputList.length - 1 === i && (
+                                                                        <button className="ml10" onClick={handleAddClick}>
+                                                                            +
+                                                                        </button>
+                                                                    )}
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    
+                                                                </>
+                                                            );
+                                                        })
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="card">
+                                            <div className="card-body">
+                                                <label htmlFor="">Commentaires</label>
+                                                <textarea name="" className="form-control" id="" cols="30" rows="2"></textarea>
+                                                <br />
+                                                <button className="float-end btn btn-primary">Enregistrer </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div className="modal-footer">
+                            <button className="btn btn-primary">Valider Acces</button>
                         </div>
                     </div>
                 </div>

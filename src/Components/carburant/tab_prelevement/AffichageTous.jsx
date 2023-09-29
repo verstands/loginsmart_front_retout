@@ -190,10 +190,7 @@ const AffchageTous = () => {
                     </center>
                     <hr />
                     <div class="table-responsive">
-                        <table
-                            id="zero_config"
-                            class="table table-striped table-bordered"
-                        >
+                    <table id="zero_config" className="table table-striped table-bordered table-sm">
                             <thead>
                                 <tr style={{ background: 'silver' }}>
                                     <th>N°</th>

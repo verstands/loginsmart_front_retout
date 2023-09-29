@@ -36,6 +36,7 @@ import PdfprelevementC from "../Components/carburant/tab_prelevement/Pdfprelevem
 import PdfprelevementAllC from "../Components/carburant/tab_prelevement/PdfprelevementAllC";
 import MaintenancePdf from "../Components/maintenance/vehicule/MaintenancePdf";
 import AffichetousId from "../Components/maintenance/vehicule/affichetousId";
+import SuiviIntervention from "../Components/maintenance/vehicule/SuiviIntervention";
 
 
 
@@ -80,6 +81,7 @@ class Routers extends Component {
                 <Route path="/PdfprelevementC" element={<PdfprelevementC />} />
                 <Route path="/PdfprelevementAllC" element={<PdfprelevementAllC />} />
                 <Route path="/MaintenancePdf/:id" element={<MaintenancePdf />} /> 
+                <Route path="/SuiviIntervention" element={<SuiviIntervention />} /> 
             </Routes>
         )
     }

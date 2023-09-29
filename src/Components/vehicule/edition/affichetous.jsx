@@ -281,12 +281,9 @@ const Affiche_vehicule = () => {
                     <h4 className="text-center">LISTE DES VEHICULES</h4>
                     <hr />
                     <div className="table-responsive">
-                        <table
-                            id="zero_config"
-                            className="table table-striped table-bordered"
-                        >
+                        <table id="zero_config" className="table table-striped table-bordered table-sm">
                             <thead>
-                                <tr>
+                                <tr style={{background : 'silver'}}>
                                     <th>Num. ord</th>
                                     <th>Immatriculation</th>
                                     <th>Marque</th>

@@ -325,9 +325,7 @@ const Prelevement = () => {
                             <div className="col-md-6">
 
                                 <h6>::Tableau de Bord::</h6>
-                                <table
-                                    id="example" className="table table-striped"
-                                >
+                                <table id="zero_config" className="table table-striped table-bordered table-sm">
                                     <thead>
                                         <tr style={{ background: 'silver' }}>
                                             <th>Num</th>
@@ -373,7 +371,7 @@ const Prelevement = () => {
                                 <div className="col-md-12" style={{ display: dispat_caburant }}>
                                     <div style={{ pointerEvents: isDisabled ? 'none' : 'auto' }}>
                                         <h6 className="text-center">{titreModel.marque} {titreModel.modele} ({titreModel.nom_carb})</h6>
-                                        <table id="example" className="table table-striped">
+                                        <table id="zero_config" className="table table-striped table-bordered table-sm">
                                             <thead>
                                                 <tr style={{ background: 'silver' }}>
                                                     <th>Num</th>

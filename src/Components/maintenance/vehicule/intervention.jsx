@@ -50,21 +50,21 @@ const Intervention = () => {
         setLoading(true);
         inputList.forEach((dsav, index) => {
             axios.post(url, {
-                immatriculation :selectedVehicule ,
-                kilometrage : kilo,
-                kilometrage2 : kilo,
-                daterep : debut,
-                dtsorti : debut,
-                date_prevu : debut,
-                cout : cout,
-                id_fseur : selectedVehicules,
-                comment : desc,
-                code_rep : 1,
-                id_controle : 1,
-                id_inspection : 1,
-                num_type : dsav.typeReparation,
-                intitule : dsav.description,
-                montant :  dsav.montant,
+                immatriculation: selectedVehicule,
+                kilometrage: kilo,
+                kilometrage2: kilo,
+                daterep: debut,
+                dtsorti: debut,
+                date_prevu: debut,
+                cout: cout,
+                id_fseur: selectedVehicules,
+                comment: desc,
+                code_rep: 1,
+                id_controle: 1,
+                id_inspection: 1,
+                num_type: dsav.typeReparation,
+                intitule: dsav.description,
+                montant: dsav.montant,
             }, {
                 headers: {
                     Accept: 'application/json',
@@ -103,9 +103,9 @@ const Intervention = () => {
                     setLoading(false);
                 }
             });
-            
-          });
-        
+
+        });
+
     }
     useEffect(() => {
         axios.get(`${process.env.REACT_APP_SERVICE_API}vehicule/${siteSession}`,
@@ -151,7 +151,7 @@ const Intervention = () => {
             }
         ).then((response) => {
             setreparation(response.data.data);
-         
+
         }).catch((error) => {
             alert("type_reparation" + error)
         })
@@ -159,7 +159,7 @@ const Intervention = () => {
 
     const handleChange = (e) => {
         setSelectedVehicule(e.value);
-     
+
     }
     const autocompleteVehicule = () => {
         const options = vehicule.map((vh) => ({
@@ -224,7 +224,7 @@ const Intervention = () => {
                                         <>
                                             <div className="col-md-4 typR"><br />
                                                 <label for="" className="titre1">Type de reparation</label>
-                                                <select  name="typeReparation" value={x.typeReparation} className="form-control" onChange={e => handleInputChange(e, i)}>
+                                                <select name="typeReparation" value={x.typeReparation} className="form-control" onChange={e => handleInputChange(e, i)}>
                                                     {
                                                         reparation.map((e) => {
                                                             return (
@@ -273,7 +273,12 @@ const Intervention = () => {
                             </div>
                         </div>
                         <div className="modal-footer">
-                            <button type="submit" onClick={Enregistrer} className="btn btn-primary">{ loading && (<i className="fa fa-spinner fa-pulse"></i>) } Enregister</button>
+                            {
+                                loading === true && (
+                                    <p><i style={{fontSize : '35px'}} className="fa fa-spinner fa-pulse text-primary" ></i></p>
+                                )
+                            }
+                            <button type="submit" onClick={Enregistrer} className="btn btn-primary"> Enregister</button>
                         </div>
                     </div>
 

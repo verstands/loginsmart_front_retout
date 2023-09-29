@@ -1223,10 +1223,7 @@ const Rappport_carburant_vehicule_site = () => {
                   <div className="col-md-5" style={{ display: DisplayPage }}>
                      <h6 className="text-center">Information générales</h6>
                      <div class="table-responsive">
-                        <table
-                           id="zero_config"
-                           class="table table-striped table-bordered"
-                        >
+                     <table id="zero_config" className="table table-striped table-bordered table-sm">
                            <thead>
                               <tr style={{ background: "silver" }}>
                                  {
@@ -1276,10 +1273,7 @@ const Rappport_carburant_vehicule_site = () => {
                               </tr>
                            </tbody>
                         </table>
-                        <table
-                           id="zero_config"
-                           class="table table-striped table-bordered"
-                        >
+                        <table id="zero_config" className="table table-striped table-bordered table-sm">
                            <thead>
                               <tr style={{ background: "silver" }}>
                                  <th className="text-center">{userSite}</th>
@@ -1308,10 +1302,7 @@ const Rappport_carburant_vehicule_site = () => {
                               </tr>
                            </tbody>
                         </table>
-                        <table
-                           id="zero_config"
-                           class="table table-striped table-bordered"
-                        >
+                        <table id="zero_config" className="table table-striped table-bordered table-sm">
                            <thead>
                               <tr style={{ background: "silver" }}>
                                  {
@@ -1355,9 +1346,7 @@ const Rappport_carburant_vehicule_site = () => {
                            <div>
                               <h6 className="text-center">Détails pour chaque site</h6>
                               <div class="table-responsive" style={{ height: '500px', overflowY: 'scroll' }}>
-                                 <table
-                                    class="table table-striped table-bordered"
-                                 >
+                              <table id="zero_config" className="table table-striped table-bordered table-sm">
                                     <thead>
                                        <tr style={{ background: 'silver' }}>
                                           <th></th>
@@ -1403,7 +1392,7 @@ const Rappport_carburant_vehicule_site = () => {
                                                       <tr key={detail.id}>
                                                          <td colSpan={9}>
                                                             <center>
-                                                               <table>
+                                                            <table id="zero_config" className="table table-striped table-bordered table-sm">
                                                                   <thead>
                                                                      <tr>
                                                                         <th width="90">Jour</th>
@@ -1453,9 +1442,7 @@ const Rappport_carburant_vehicule_site = () => {
                            <div >
                               <h6 className="text-center">Détails pour chaque vehicule du site {' ' + userSite}</h6>
                               <div class="table-responsive" style={{ height: '600px', overflowY: 'scroll' }}>
-                                 <table
-                                    class="table table-striped table-bordered"
-                                 >
+                              <table id="zero_config" className="table table-striped table-bordered table-sm">
                                     <thead>
                                        <tr style={{ background: 'silver' }}>
                                           <th></th>
@@ -1501,7 +1488,7 @@ const Rappport_carburant_vehicule_site = () => {
                                                       <tr key={detail.id}>
                                                          <td colSpan={9}>
                                                             <center>
-                                                               <table>
+                                                            <table id="zero_config" className="table table-striped table-bordered table-sm">
                                                                   <thead>
                                                                      <tr>
                                                                         <th width="90">Mois</th>
@@ -1547,9 +1534,7 @@ const Rappport_carburant_vehicule_site = () => {
                            <div>
                               <h6 className="text-center">Détails pour chaque véhicule </h6>
                               <div class="table-responsive" style={{ height: '500px', overflowY: 'scroll' }}>
-                                 <table
-                                    class="table table-striped table-bordered"
-                                 >
+                                 <table id="zero_config" className="table table-striped table-bordered table-sm">
                                     <thead>
                                        <tr style={{ background: 'silver' }}>
                                           <th></th>
@@ -1609,7 +1594,7 @@ const Rappport_carburant_vehicule_site = () => {
                                                       <tr key={detail.id}>
                                                          <td colSpan={10}>
                                                             <center>
-                                                               <table>
+                                                            <table id="zero_config" className="table table-striped table-bordered table-sm">
                                                                   <thead>
                                                                      <tr>
                                                                         <th width="90">Jour</th>
@@ -1867,9 +1852,7 @@ const Rappport_carburant_vehicule_site = () => {
                            <br />
                            <h4 className="text-center">Détails pour chaque vehicule du site {" " + userSite}</h4>
                            <div class="table-responsive" style={{ height: '500px', overflowY: 'scroll' }}>
-                              <table
-                                 class="table table-striped table-bordered"
-                              >
+                           <table id="zero_config" className="table table-striped table-bordered table-sm">
                                  <thead>
                                     <tr>
                                        <th></th>
@@ -1995,9 +1978,7 @@ const Rappport_carburant_vehicule_site = () => {
                            <br />
                            <h6 className="text-center">Détails pour chaque véhicule </h6>
                            <div class="table-responsive container" style={{ height: '500px', overflowY: 'scroll' }}>
-                              <table
-                                 class="table table-striped table-bordered"
-                              >
+                           <table id="zero_config" className="table table-striped table-bordered table-sm">
                                  <thead>
                                     <tr style={{ background: 'silver' }}>
                                        <th width="2"></th>
@@ -2109,9 +2090,7 @@ const Rappport_carburant_vehicule_site = () => {
                            <br />
                            <h6 className="text-center">Détails pour chaque site</h6>
                            <div class="table-responsive" style={{ height: '500px', overflowY: 'scroll' }}>
-                              <table
-                                 class="table table-striped table-bordered"
-                              >
+                           <table id="zero_config" className="table table-striped table-bordered table-sm">
                                  <thead>
                                     <tr style={{ background: 'silver' }}>
                                        <th width="2"></th>

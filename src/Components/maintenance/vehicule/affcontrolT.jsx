@@ -170,9 +170,7 @@ const AffControlT_vehicule = () => {
                             <br />
                         </div>
                             <hr />
-                            <table
-                                id="example" className="table table-striped"
-                            >
+                            <table id="zero_config" className="table table-striped table-bordered table-sm">
                                 <thead>
                                     <tr>
                                         <th>N°</th>

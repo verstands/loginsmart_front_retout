@@ -314,12 +314,9 @@ const Search_vehicule = () => {
                     }
                 </center>
                 <div className="table-responsive">
-                    <table
-                        id="zero_config"
-                        className="table table-striped table-bordered"
-                    >
+                <table id="zero_config" className="table table-striped table-bordered table-sm">
                         <thead>
-                            <tr>
+                            <tr style={{background : 'silver'}}>
                                 <th>N°</th>
                                 <th>Date</th>
                                 <th>Marque</th>
