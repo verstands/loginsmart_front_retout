@@ -110,7 +110,7 @@ const AffControlT_vehicule = () => {
                     <td>{e.titre}</td>
                     <td>{e.prenom + " " + e.nom}</td>
                     <td>
-                        <button onClick={() => detailControl(e.id)} data-bs-toggle="modal" data-bs-target="#Detail" className="mdi mdi-apps btn btn-primary"></button>&nbsp;
+                        <button onClick={() => detailControl(e.id)} data-bs-toggle="modal" data-bs-target="#Detail" className="mdi mdi-eye btn btn-primary"></button>&nbsp;
                     </td>
                     <td>
                         {e.user_cr}
@@ -146,9 +146,10 @@ const AffControlT_vehicule = () => {
             }
         ).then((response) => {
             setcheck(response.data.data)
+            alert(response.data.data)
             setloadingD(false);
         }).catch((error) => {
-
+            alert(error)
         })
     }
     return (
@@ -158,22 +159,24 @@ const AffControlT_vehicule = () => {
                     <div className="modal-header">
                         <div className="table-responsive">
                             <h3 className="text-center">LISTE DE TOUS LES CONTROLES TECHNIQUES</h3>
-                            <div className="row">
-                            <div className="col-md-4">
-                                <select className="form-control" onChange={(e) => handleChange(e.target.value)}>
-                                    <option value="Tous">Tous</option>
-                                    <option value="COURS">En cours</option>
-                                    <option value="EXPIRE">Expire dans les 3 mois</option>
-                                </select>
-                            </div>
-                            <br />
-                            <br />
-                        </div>
                             <hr />
+                            <div className="row">
+                                <div className="col-md-2">Séléctionner :</div>
+                                <div className="col-md-4">
+                                    <select className="form-control" onChange={(e) => handleChange(e.target.value)}>
+                                        <option value="TOUS">Tous</option>
+                                        <option value="COURS">En cours</option>
+                                        <option value="EXPIRE">Expire dans les 3 mois</option>
+                                    </select>
+                                </div>
+                                <div className="col-md-4">
+                                    {loadingD && (<i style={{ fontSize: '25px' }} className="fa fa-spinner fa-pulse"></i>)}
+                                </div>
+                            </div>
                             <table id="zero_config" className="table table-striped table-bordered table-sm">
                                 <thead>
-                                    <tr>
-                                        <th>N°</th>
+                                    <tr style={{ background: 'silver' }}>
+                                        <th >N°</th>
                                         <th>immatriculation</th>
                                         <th>Marque/Model</th>
                                         <th>Date controle</th>
@@ -192,20 +195,6 @@ const AffControlT_vehicule = () => {
                                 {
                                     loading === true && (
                                         <p><i className="fa fa-pulse fa-spinner text-primary" style={{ fontSize: 40 }} ></i></p>
-                                    )
-                                }
-                            </center>
-                            <center>
-                                {
-                                    loadingD === true && (
-                                        <p><i className="fa fa-pulse fa-spinner text-primary" style={{ fontSize: 40 }} ></i></p>
-                                    )
-                                }
-                            </center>
-                            <center>
-                                {
-                                    check.length <= 0 && (
-                                       <h5>Pas d'information</h5>
                                     )
                                 }
                             </center>
@@ -234,40 +223,40 @@ const AffControlT_vehicule = () => {
                                 <div className="row">
                                     <div className="col-md-4">
                                         <label htmlFor="">Reference centre</label><br />
-                                        <input type="text" value={detail.ref_centre} className="form-control" />
+                                        <input type="text" style={{ border: "red" }} value={detail.ref_centre} className="form-control" />
                                     </div>
                                     <div className="col-md-4">
                                         <label htmlFor="">Nom centre</label><br />
-                                        <input type="text" value={detail.nom_centre} className="form-control" />
+                                        <input type="text" style={{ border: "red" }} value={detail.nom_centre} className="form-control" />
                                     </div>
                                     <div className="col-md-4">
                                         <label htmlFor="">Date check</label><br />
-                                        <input type="text" value={detail.date_check} className="form-control" />
+                                        <input type="text" style={{ border: "red" }} value={detail.date_check} className="form-control" />
                                     </div>
                                     <div className="col-md-4">
                                         <label htmlFor="">Immatriculation</label><br />
-                                        <input type="text" value={detail.immat_check} className="form-control" />
+                                        <input type="text" style={{ border: "red" }} value={detail.immat_check} className="form-control" />
                                     </div><div className="col-md-4">
                                         <label htmlFor="">Kilometrage</label><br />
-                                        <input type="text" value={detail.km_check} className="form-control" />
+                                        <input type="text" style={{ border: "red" }} value={detail.km_check} className="form-control" />
                                     </div><div className="col-md-4">
                                         <label htmlFor="">Chauffeur</label><br />
-                                        <input type="text" value={detail.chauff_check} className="form-control" />
+                                        <input type="text" style={{ border: "red" }} value={detail.chauff_check} className="form-control" />
                                     </div><div className="col-md-4">
                                         <label htmlFor="">Agent</label><br />
-                                        <input type="text" value={detail.agent_check} className="form-control" />
+                                        <input type="text" style={{ border: "red" }} value={detail.agent_check} className="form-control" />
                                     </div>
                                     <div className="col-md-4">
                                         <label htmlFor="">Prix</label><br />
-                                        <input type="text" value={detail.cout_ht} className="form-control" />
+                                        <input type="text" style={{ border: "red" }} value={detail.cout_ht} className="form-control" />
                                     </div>
                                     <div className="col-md-4">
                                         <label htmlFor="">Delai</label><br />
-                                        <input type="text" value={detail.delai_check} className="form-control" />
+                                        <input type="text" style={{ border: "red" }} value={detail.delai_check} className="form-control" />
                                     </div>
                                     <div className="col-md-4">
                                         <label htmlFor="">Observation</label><br />
-                                        <input type="text" value={detail.observation} className="form-control" />
+                                        <input type="text" style={{ border: "red" }} value={detail.observation} className="form-control" />
                                     </div>
 
                                 </div>

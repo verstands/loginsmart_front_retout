@@ -4,6 +4,7 @@ import Intervention from "./vehicule/intervention";
 import AffTous_maintenance_vehicule from "./vehicule/afftous_mainteance_vehicule";
 import AffControlT_vehicule from "./vehicule/affcontrolT";
 import ControlT from "./vehicule/controlT";
+import Recherche_maintenace from "./vehicule/recherche";
 
 const Vehicule_maintenance = () => {
     return (
@@ -97,7 +98,7 @@ const Vehicule_maintenance = () => {
                                 <AffControlT_vehicule />
                             </div>
                             <div class="tab-pane p-20" id="rech" role="tabpanel">
-                                <affControlT />
+                                <Recherche_maintenace />
                             </div>
                         </div>
                     </div>

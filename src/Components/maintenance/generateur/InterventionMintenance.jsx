@@ -10,6 +10,7 @@ const InterventionMintenance = () => {
     const [vehicule, setvehicule] = useState([]);
     const [reparation, setreparation] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [loadingD, setLoadingD] = useState(false);
     const [immatriculations, setimmatriculations] = useState("");
     const [debut, setdebut] = useState("");
     const [kilo, setkilo] = useState("");
@@ -48,21 +49,21 @@ const InterventionMintenance = () => {
     let n = 1;
     const url = `${process.env.REACT_APP_SERVICE_API}entretien_grpe`;
     const Enregistrer = () => {
-            
+        setLoadingD(true)
         inputList.forEach((dsav, index) => {
             axios.post(url, {
-                num_grpe :selectedVehicule ,
-                cpte_avant : kilo,
-                cpte_proch : kilos,
-                date_mod : debut,
-                dtsorti : debut,
-                date_prevu : debut,
-                montant : cout,
-                fseur : selectedVehicules,
-                remarques : desc,
-                type : dsav.typeReparation,
-                description : dsav.description,
-                montant_d :  dsav.montant,
+                num_grpe: selectedVehicule,
+                cpte_avant: kilo,
+                cpte_proch: kilos,
+                date_mod: debut,
+                dtsorti: debut,
+                date_prevu: debut,
+                montant: cout,
+                fseur: selectedVehicules,
+                remarques: desc,
+                type: dsav.typeReparation,
+                description: dsav.description,
+                montant_d: dsav.montant,
             }, {
                 headers: {
                     Accept: 'application/json',
@@ -76,30 +77,33 @@ const InterventionMintenance = () => {
                     text: 'Success',
                     confirmButtonText: 'OK'
                 });
-
+                setLoadingD(false)
             }).catch((error) => {
                 if (error.response && error.response.status === 422) {
                     Swal.fire({
                         icon: 'error',
                         text: `${error.response.data.message}`,
                     });
+                    setLoadingD(false)
                 } else if (error.response.status === 500) {
                     Swal.fire({
                         icon: 'error',
                         text: 'Erreur de la connexion !!!',
                         confirmButtonText: 'OK'
                     })
+                    setLoadingD(false)
                 } else {
                     Swal.fire({
                         icon: 'error',
                         text: `${error.response.data.message}`,
                         confirmButtonText: 'OK'
                     })
+                    setLoadingD(false)
                 }
             });
-            
-          });
-        
+
+        });
+
     }
     useEffect(() => {
         axios.get(`${process.env.REACT_APP_SERVICE_API}groupeSite/${siteSession}`,
@@ -153,7 +157,7 @@ const InterventionMintenance = () => {
 
     const handleChange = (e) => {
         setSelectedVehicule(e.value);
-     
+
     }
     const autocompleteVehicule = () => {
         const options = vehicule.map((vh) => ({
@@ -222,7 +226,7 @@ const InterventionMintenance = () => {
                                         <>
                                             <div className="col-md-4 typR"><br />
                                                 <label for="" className="titre1">Type de reparation</label>
-                                                <select  name="typeReparation" value={x.typeReparation} className="form-control" onChange={e => handleInputChange(e, i)}>
+                                                <select name="typeReparation" value={x.typeReparation} className="form-control" onChange={e => handleInputChange(e, i)}>
                                                     {
                                                         reparation.map((e) => {
                                                             return (
@@ -270,8 +274,13 @@ const InterventionMintenance = () => {
                                 <textarea name="" id="" onChange={(e) => setdesc(e.target.value)} cols="10" rows="3" className="form-control"></textarea>
                             </div>
                         </div>
-                        <div className="modal-footer">
-                            <button type="submit" onClick={Enregistrer} className="btn btn-primary">Enregister</button>
+                        <div class="modal-footer">
+                            {
+                                loadingD === true && (
+                                    <p><i style={{ fontSize: '35px' }} className="fa fa-spinner fa-pulse text-primary" ></i></p>
+                                )
+                            }
+                            <button onClick={Enregistrer} class="btn btn-primary" > Enregistrer</button>
                         </div>
                     </div>
 

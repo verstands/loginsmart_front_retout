@@ -1,6 +1,7 @@
 import React from "react";
 import Navbar from "../Navbar";
 import InterventionMintenance from "./generateur/InterventionMintenance";
+import AffichageTousMaintenance from "./generateur/AffichageTousMaintenance";
 
 const Generateur_maintenace = () => {
     return (
@@ -24,7 +25,7 @@ const Generateur_maintenace = () => {
                                 <a
                                     class="nav-link"
                                     data-bs-toggle="tab"
-                                    href="#profile"
+                                    href="#afftous"
                                     role="tab"
                                 ><span class="hidden-sm-up"></span>
                                     <span class="hidden-xs-down"><i class="fas fa-book"></i> Afficher tous</span></a
@@ -77,18 +78,8 @@ const Generateur_maintenace = () => {
                                     <InterventionMintenance />
                                 </div>
                             </div>
-                            <div class="tab-pane p-20" id="aff" role="tabpanel">
-                                <div class="p-20">
-                                   
-                                </div>
-                            </div>
-                            <div class="tab-pane p-20" id="profile" role="tabpanel">
-                                <div class="p-20">
-                                   
-                                </div>
-                            </div>
-                            <div class="tab-pane p-20" id="messages" role="tabpanel">
-                                
+                            <div class="tab-pane p-20" id="afftous" role="tabpanel">
+                                <AffichageTousMaintenance />
                             </div>
                             <div class="tab-pane p-20" id="affcontrol" role="tabpanel">
                                 
