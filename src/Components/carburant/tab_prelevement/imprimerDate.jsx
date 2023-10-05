@@ -70,7 +70,6 @@ const ImprimerDate = () => {
                     }
                 ).then((response) => {
                     setcarss(response.data.data);
-                    alert(`${process.env.REACT_APP_SERVICE_API}pleinCarDate/${siteSession}/${pleinCarDate}`)
                     setloading(false)
                 }).catch((error) => {
                     alert(error)

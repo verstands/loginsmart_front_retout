@@ -18,6 +18,9 @@ const AffTous_maintenance_vehicule = () => {
     const siteSession = localStorage.getItem("siteSession");
     const [inputList, setInputList] = useState([{ tache: '', piece: '', montant: '' }]);
 
+    const [commentaire, setcommentaire] = useState("NULL")
+    const [evaluation, setevaluation] = useState("")
+
     const handleInputChange = (e, index) => {
         const { name, value } = e.target;
         const list = [...inputList];
@@ -298,6 +301,59 @@ const AffTous_maintenance_vehicule = () => {
             </Pagination.Item>,
         );
     }
+    const url = `${process.env.REACT_APP_SERVICE_API}travaux_recl`;
+    const Enregistrer = () => {
+        setloadingD(true);
+        inputList.forEach((dsav, index) => {
+            axios.post(url, {
+                IDop: evaluation,
+                type_travail: dsav.tache,
+                IDsub_mat: 1,
+                cout: dsav.montant,
+                observation: commentaire,
+            }, {
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                    Authorization: token
+                }
+            }
+            ).then((response) => {
+                Swal.fire({
+                    icon: 'success',
+                    text: `${response.data.message}`,
+                    confirmButtonText: 'OK'
+                });
+                setloadingD(false);
+
+            }).catch((error) => {
+                if (error.response && error.response.status === 422) {
+                    Swal.fire({
+                        icon: 'error',
+                        text: `${error.response.data.message}`,
+                    });
+                    setloadingD(false);
+                } else if (error.response.status === 500) {
+                    Swal.fire({
+                        icon: 'error',
+                        text: 'Erreur de la connexion !!!',
+                        confirmButtonText: 'OK'
+                    })
+                    setloadingD(false);
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        text: `${error.response.data.message}`,
+                        confirmButtonText: 'OK'
+                    })
+                    setloadingD(false);
+                }
+            });
+
+        });
+
+    }
+
     return (
         <>
             <div className="card">
@@ -501,9 +557,6 @@ const AffTous_maintenance_vehicule = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className="modal-footer">
-
-                        </div>
                     </div>
                 </div>
             </div>
@@ -512,10 +565,11 @@ const AffTous_maintenance_vehicule = () => {
 
             <div className="modal fade" id="accesadmin" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div className="modal-dialog modal-lg">
-                    <div className="modal-content">
+                    <div className="modal-content" style={{ height: '100vh', overflowY: 'scroll' }}>
                         <div className="modal-header">
                             <h5 className="modal-title" id="exampleModalLabel">SUIVI INTERVENTION BON N° {reparationIdd.id}: VEHECULE N°{reparationIdd.marque} {reparationIdd.modele} {reparationIdd.immatriculation}</h5>
-                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <button type="button" className="btn-close" data-bs-toggle="modal" data-bs-target="#Carbs"></button>
+
                         </div>
                         <div className="modal-body">
                             <div className='card-body'>
@@ -563,12 +617,13 @@ const AffTous_maintenance_vehicule = () => {
                                                     <h6>Evaluation:</h6>
                                                 </div>
                                                 <div className="col-md-8">
-                                                    <select className="form-control" name="" id="">
+                                                    <select className="form-control" onChange={(e) => setevaluation(e.target
+                                                        .value)} name="" id="">
                                                         <option value="">--Choisir--</option>
                                                         {
                                                             evaluationTableau.map((ev) => {
                                                                 return (
-                                                                    <option value={ev.id}>{ev.state}</option>
+                                                                    <option value={ev.id} key={ev.id}>{ev.state}</option>
                                                                 )
                                                             })
                                                         }
@@ -595,7 +650,7 @@ const AffTous_maintenance_vehicule = () => {
                                                             return (
                                                                 <>
                                                                     <div className="col-md-4">
-                                                                        <select name="" className="form-control" onChange={e => handleInputChange(e, i)} id="">
+                                                                        <select value={x.tache} name="tache" className="form-control" onChange={e => handleInputChange(e, i)} id="">
                                                                             <option value="">Travail Effectué</option>
                                                                             {
                                                                                 tacheTableau.map((tt) => {
@@ -612,21 +667,21 @@ const AffTous_maintenance_vehicule = () => {
                                                                     <div className="col-md-4">
                                                                         <div className="row">
                                                                             <div className="col-md-7">
-                                                                                <input type="number" className="form-control" onChange={e => handleInputChange(e, i)} />
+                                                                                <input value={x.montant} name="montant" type="number" className="form-control" onChange={e => handleInputChange(e, i)} />
                                                                             </div>
                                                                             <div className="col-md-3">
                                                                                 <p>usd</p>
                                                                             </div>
                                                                             <div className="col-md-2">
-                                                                            {inputList.length - 1 === i && (
-                                                                        <button className="ml10" onClick={handleAddClick}>
-                                                                            +
-                                                                        </button>
-                                                                    )}
+                                                                                {inputList.length - 1 === i && (
+                                                                                    <button className="ml10" onClick={handleAddClick}>
+                                                                                        +
+                                                                                    </button>
+                                                                                )}
                                                                             </div>
                                                                         </div>
                                                                     </div>
-                                                                    
+
                                                                 </>
                                                             );
                                                         })
@@ -637,18 +692,23 @@ const AffTous_maintenance_vehicule = () => {
                                         <div className="card">
                                             <div className="card-body">
                                                 <label htmlFor="">Commentaires</label>
-                                                <textarea name="" className="form-control" id="" cols="30" rows="2"></textarea>
+                                                <textarea name="" className="form-control" onChange={(e) => setcommentaire(e.target.value)} id="" cols="30" rows="2"></textarea>
                                                 <br />
-                                                <button className="float-end btn btn-primary">Enregistrer </button>
+
+                                                <div className="modal-footer">
+                                                    {
+                                                        loadingD === true && (
+                                                            <p><i style={{ fontSize: '35px' }} className="fa fa-spinner fa-pulse text-primary" ></i></p>
+                                                        )
+                                                    }
+                                                    <button className="float-end btn btn-primary" onClick={Enregistrer}>Enregistrer </button>
+
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
-                        </div>
-                        <div className="modal-footer">
-                            <button className="btn btn-primary">Valider Acces</button>
                         </div>
                     </div>
                 </div>

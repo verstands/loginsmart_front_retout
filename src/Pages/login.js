@@ -143,9 +143,7 @@ function LoginA() {
                 loading === true && (
                   <p><i className="fa fa-spinner fa-pulse text-warning" ></i></p>
                 )
-              }
-              @FreeALPHA23
-              meganelbuhika@gmail.com 
+              } 
             </center>
             <div class="row border-top border-secondary">
               <div class="col-12"> 

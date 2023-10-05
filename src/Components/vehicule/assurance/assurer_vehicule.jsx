@@ -36,27 +36,40 @@ const Assurer_vehicule = () => {
     const [dmdate, setdmdate] = useState("");
     const [dmecheance, setdmecheance] = useState("");
     const [rcdate, rcecheance] = useState("");
+    const [rcdate2, rcecheance2] = useState("");
     const [incdate, incecheance] = useState("");
+    const [incdate2, incecheance2] = useState("");
     const [voldate, volecheance] = useState("");
+    const [voldate2, volecheance2] = useState("");
 
     const [checked, setChecked] = React.useState(false);
     const [num_carte_verte, setnum_carte_verte] = useState("false");
     const [date_recep, setdate_recep] = useState("false");
     const url = `${process.env.REACT_APP_SERVICE_API}assurances`
+    const siteSession = localStorage.getItem("siteSession");
+
     const Enregistrer = () => {
+        //0897626743
         alert(
-            selectedVehicule + 
-            " * " + contrat + 
-            " * " + primeht + 
-            " * " + taxes + 
-            " * " + primettc + 
-            " * " + num_carte_verte +
-            " * " + checked + 
-            " * " + date_recep +  
-            " * " + agence  + 
-            " * " + commentaire + 
-            " * " + dmdate + 
-            " * " + dmecheance 
+            selectedVehicule +  //vehecule
+            " *A " + contrat + 
+            " *B" + primeht + 
+            " *C " + taxes + 
+            " *D " + cal + 
+            " *E " + num_carte_verte +
+            " *F " + date_recep +  
+            " *G " + agence  + 
+            " *H " + commentaire + 
+            " *I " + dmdate + 
+            " *J " + dmecheance  + 
+            " *K " + rcdate + 
+            " *L " + rcdate2 + 
+            " *M " + incdate + 
+            " *N " + incdate2 + 
+            " *O " + voldate + 
+            " *P " + voldate2 + 
+            " *Q " + assureur //Assureur 
+
 
         )
        /* axios.post(url, {
@@ -163,10 +176,7 @@ const Assurer_vehicule = () => {
     }
     
     useEffect(() => {
-        const sites = JSON.parse(localStorage.getItem("site"))
-        if (sites != "") {
-            sites.map((veh) => {
-                axios.get(`${process.env.REACT_APP_SERVICE_API}vehicule/${veh.idSite}`,
+                axios.get(`${process.env.REACT_APP_SERVICE_API}vehicule/${siteSession}`,
                     {
                         headers: {
                             Accept: 'application/json',
@@ -180,8 +190,6 @@ const Assurer_vehicule = () => {
                 }).catch((error) => {
 
                 })
-            })
-        }
     }, [])
     //assureur
     useEffect(() => {
@@ -221,7 +229,6 @@ const Assurer_vehicule = () => {
     
     const handleChange = (e) => {
         setSelectedVehicule(e.value);
-        alert(e.value);
     }
     const autocompleteVehicule = () => {
         const options = vehicule.map((vh) => ({
@@ -385,8 +392,8 @@ const Assurer_vehicule = () => {
                                                 />
                                             </td>
                                             <td>RC</td>
-                                            <td><input style={{ display: rc }} type="date" className="form-control" /></td>
-                                            <td><input style={{ display: rc }} type="date" className="form-control" /></td>
+                                            <td><input style={{ display: rc }} type="date" onChange={(e) => rcecheance(e.target.value)} className="form-control" /></td>
+                                            <td><input style={{ display: rc }} type="date" onChange={(e) => rcecheance2(e.target.value)} className="form-control" /></td>
                                         </tr>
                                         <tr>
                                             <td>
@@ -397,8 +404,8 @@ const Assurer_vehicule = () => {
                                                 />
                                             </td>
                                             <td>INC</td>
-                                            <td><input style={{ display: inc }} type="date" className="form-control" /></td>
-                                            <td><input style={{ display: inc }} type="date" className="form-control" /></td>
+                                            <td><input style={{ display: inc }} type="date" onChange={(e) => incecheance(e.target.value)} className="form-control" /></td>
+                                            <td><input style={{ display: inc }} type="date" onChange={(e) => incecheance2(e.target.value)} className="form-control" /></td>
                                         </tr>
                                         <tr>
                                             <td>
@@ -409,8 +416,8 @@ const Assurer_vehicule = () => {
                                                 />
                                             </td>
                                             <td>VOL</td>
-                                            <td><input type="date" style={{ display: vol }} className="form-control" /></td>
-                                            <td><input type="date" style={{ display: vol }} className="form-control" /></td>
+                                            <td><input type="date" style={{ display: vol }} onChange={(e) => volecheance(e.target.value)} className="form-control" /></td>
+                                            <td><input type="date" style={{ display: vol }} onChange={(e) => volecheance2(e.target.value)} className="form-control" /></td>
                                         </tr>
                                     </tbody>
                                 </table>
